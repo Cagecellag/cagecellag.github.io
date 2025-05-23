@@ -1,3 +1,3 @@
 # MyThing
 
-Just random shit i want to host somewhere
+Just random shit I need a place to host
