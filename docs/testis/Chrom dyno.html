@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chrome Dino — Exact Clone (Improved)</title>
+  <style>
+    html,body{height:100%;margin:0;background:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .wrap{display:flex;align-items:center;justify-content:center;height:100vh}
+    canvas{background:#f7f7f7;border:6px solid #e6e6e6;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+    .hint{position:fixed;left:12px;bottom:12px;color:#333;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="game" width="800" height="150" tabindex="0"></canvas>
+  </div>
+  <div class="hint">Space/↑ jump — ↓ duck — Space (when dead) or R to restart</div>
+<script>
+(() => {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const GROUND = H - 30;
+
+  // Game
+  let speed = 6;
+  let frame = 0;
+  let score = 0;
+  let best = parseInt(localStorage.getItem('dino_best')||'0',10) || 0;
+  let gameOver = false;
+
+  // Input
+  let down = false;
+
+  // --- Pixel sprite helper ---
+  function drawSprite(map, x, y, scale, color){
+    ctx.fillStyle = color || '#222';
+    for(let r=0;r<map.length;r++){
+      const row = map[r];
+      for(let c=0;c<row.length;c++){
+        if(row[c] === '1') ctx.fillRect(x + c*scale, y + r*scale, scale, scale);
+      }
+    }
+  }
+
+  // T-Rex sprite (approximate, taken from game silhouette)
+  const DINO_S = [
+    '000001110000',
+    '000011111000',
+    '001111111100',
+    '011111111110',
+    '111111111111',
+    '111111111111',
+    '011011111100',
+    '001001111000',
+    '001001111000',
+    '001001001000',
+    '001001001000',
+    '001001001000'
+  ];
+  const DINO_DUCK = [
+    '000001110000',
+    '000011111000',
+    '001111111100',
+    '011111111110',
+    '111111111111',
+    '111111111111',
+    '011011111100'
+  ];
+
+  const DINO_SCALE = 3;
+  const DINO_W = DINO_S[0].length * DINO_SCALE;
+  const DINO_H = DINO_S.length * DINO_SCALE;
+
+  // Dino state
+  const dino = {
+    x: 46,
+    y: GROUND - DINO_H,
+    vy: 0,
+    gravity: 0.85,
+    jumping: false,
+    width(){ return DINO_W; },
+    height(){ return DINO_H; },
+    jump(){ if(!this.jumping){ this.vy = -13.2; this.jumping = true; } },
+    update(){ this.y += this.vy; this.vy += this.gravity; if(this.y >= GROUND - this.height()){ this.y = GROUND - this.height(); this.vy = 0; this.jumping = false; } },
+    draw(){
+      if(down && !this.jumping){
+        // duck sprite scaled a little lower
+        drawSprite(DINO_DUCK, Math.round(this.x), Math.round(this.y + DINO_SCALE*4), DINO_SCALE, '#222');
+      } else {
+        drawSprite(DINO_S, Math.round(this.x), Math.round(this.y), DINO_SCALE, '#222');
+      }
+    }
+  };
+
+  // Obstacles — cacti types (pixel columns) and pterodactyl
+  const obstacles = [];
+  function spawnCactus(){
+    const type = Math.random() < 0.6 ? 0 : (Math.random()<0.5?1:2);
+    if(type === 0){ // small single
+      obstacles.push({kind:'cactus', x:W + 10, w:12, h:30});
+    } else if(type === 1){ // double
+      obstacles.push({kind:'cactus', x:W + 10, w:18, h:30});
+    } else {
+      obstacles.push({kind:'cactus', x:W + 10, w:22, h:40});
+    }
+  }
+
+  // pterodactyl: flapping two-frame
+  const pteroFrames = [
+    ['00111100','01111110','11111111','11111111','01111110','00100100'],
+    ['00111100','01111110','11111111','11111111','01111110','00100100']
+  ];
+  function spawnPtero(){
+    const yOptions = [GROUND - 90, GROUND - 70, GROUND - 50];
+    obstacles.push({kind:'ptero', x:W + 10, frame:0, y: yOptions[Math.floor(Math.random()*yOptions.length)], w: pteroFrames[0][0].length * 3, h: pteroFrames[0].length * 3});
+  }
+
+  function updateObstacles(){
+    for(let i=obstacles.length-1;i>=0;i--){
+      const o = obstacles[i];
+      o.x -= speed;
+      if(o.kind === 'ptero'){
+        o.frame = (frame % 10) < 5 ? 0 : 1;
+      }
+      // collision (use reduced hitboxes)
+      const dHit = {x: dino.x + 6, y: dino.y + 6, w: DINO_W - 12, h: DINO_H - 12};
+      let oHit;
+      if(o.kind === 'cactus') oHit = {x: o.x, y: GROUND - o.h, w:o.w, h:o.h};
+      else oHit = {x: o.x, y: o.y, w:o.w, h:o.h};
+      if(rectIntersect(dHit,oHit)) gameOver = true;
+      if(o.x + (o.w||50) < -50) obstacles.splice(i,1);
+    }
+  }
+
+  function drawObstacles(){
+    obstacles.forEach(o => {
+      if(o.kind === 'cactus'){
+        const x = Math.round(o.x), y = GROUND - o.h;
+        ctx.fillStyle = '#2b2b2b';
+        // draw as vertical blocks to mimic original
+        const cols = Math.max(1, Math.round(o.w/6));
+        for(let c=0;c<cols;c++) ctx.fillRect(x + c*6, y, 6, o.h);
+      } else if(o.kind === 'ptero'){
+        const x = Math.round(o.x), y = Math.round(o.y);
+        drawPtero(o.frame, x, y, 3);
+      }
+    });
+  }
+
+  function drawPtero(frameIdx,x,y,scale){
+    const map = pteroFrames[frameIdx];
+    ctx.fillStyle = '#222';
+    for(let r=0;r<map.length;r++){
+      const row = map[r];
+      for(let c=0;c<row.length;c++) if(row[c] === '1') ctx.fillRect(x + c*scale, y + r*scale, scale, scale);
+    }
+  }
+
+  // helpers
+  function rectIntersect(a,b){ return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y + a.h < b.y || a.y > b.y + b.h); }
+
+  // ground
+  function drawGround(){
+    ctx.fillStyle = '#757575'; ctx.fillRect(0, GROUND, W, 2);
+    ctx.strokeStyle = 'rgba(0,0,0,0.05)';
+    for(let gx=0;gx<W;gx+=20){ ctx.beginPath(); ctx.moveTo(gx,GROUND+2); ctx.lineTo(gx+10,GROUND+2); ctx.stroke(); }
+  }
+
+  // cloud
+  const clouds = [];
+  function spawnCloud(){ clouds.push({x:W + 20, y: 10 + Math.random()*40, r: 8 + Math.random()*12, vx: 0.5 + Math.random()*0.6}); }
+  function drawClouds(){ for(let i=clouds.length-1;i>=0;i--){ const c=clouds[i]; c.x -= c.vx; ctx.beginPath(); ctx.fillStyle = 'rgba(200,200,200,0.6)'; ctx.ellipse(c.x, c.y, c.r, c.r*0.6,0,0,Math.PI*2); ctx.fill(); if(c.x < -120) clouds.splice(i,1); } }
+
+  // spawn schedule
+  let nextSpawn = 90;
+
+  function reset(){ speed = 6; frame = 0; score = 0; obstacles.length = 0; gameOver = false; dino.y = GROUND - dino.height(); dino.vy = 0; dino.jumping = false; nextSpawn = 90; canvas.focus(); }
+
+  // input
+  document.addEventListener('keydown', e => {
+    if(e.code === 'ArrowDown') { down = true; e.preventDefault(); }
+    if(e.code === 'KeyR') { reset(); }
+    if(e.code === 'Space' || e.code === 'ArrowUp'){
+      e.preventDefault();
+      if(gameOver) { reset(); return; }
+      // only act on first keydown (ignore repeats) so holding doesn't increase jump
+      if(!e.repeat) dino.jump();
+    }
+  });
+  document.addEventListener('keyup', e => { if(e.code === 'ArrowDown') down = false; });
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); if(gameOver) reset(); else dino.jump(); });
+  canvas.addEventListener('click', () => { if(gameOver) reset(); });
+
+  // main loop
+  function loop(){
+    frame++;
+    if(!gameOver){
+      score += 0.15;
+      if(frame % 240 === 0) speed += 0.5;
+      // spawn
+      nextSpawn--;
+      if(nextSpawn <= 0){
+        // decide ptero or cactus
+        if(Math.random() < Math.min(0.12, score/2000)) spawnPtero(); else spawnCactus();
+        // spacing depends on speed and score
+        nextSpawn = Math.max(50, 120 - Math.floor(score/60)) + Math.floor(Math.random()*40);
+      }
+      dino.update();
+      updateObstacles();
+    }
+
+    // draw
+    ctx.clearRect(0,0,W,H);
+    const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#fff'); g.addColorStop(1,'#f0f6ff'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    if(frame % 300 === 0) spawnCloud();
+    drawClouds();
+    drawGround();
+    drawObstacles();
+
+    // draw dino (if ducking, visually lower)
+    if(down && !dino.jumping) {
+      const prevY = dino.y; dino.y = GROUND - (DINO_DUCK.length * DINO_SCALE) - 6; dino.draw(); dino.y = prevY;
+    } else {
+      dino.draw();
+    }
+
+    // HUD
+    ctx.fillStyle = '#333'; ctx.font = '16px monospace'; ctx.fillText('SCORE ' + Math.floor(score), W - 180, 28); ctx.fillText('BEST ' + best, W - 180, 48);
+
+    if(gameOver){
+      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#fff'; ctx.font = '24px sans-serif'; ctx.fillText('GAME OVER', W/2 - 70, H/2 - 6);
+      ctx.font = '14px monospace'; ctx.fillText('Press SPACE to restart', W/2 - 90, H/2 + 18);
+      if(Math.floor(score) > best){ best = Math.floor(score); localStorage.setItem('dino_best', best); }
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  // expose a small debug collision test
+  window.isColliding = function(){
+    for(const o of obstacles){
+      const dHit = {x:dino.x+6,y:dino.y+6,w:dino.width()-12,h:dino.height()-12};
+      const oHit = o.kind === 'cactus' ? {x:o.x,y:GROUND-o.h,w:o.w,h:o.h} : {x:o.x,y:o.y,w:o.w,h:o.h};
+      if(rectIntersect(dHit,oHit)) return true;
+    }
+    return false;
+  }
+
+  // start
+  reset(); loop(); canvas.focus();
+})();
+</script>
+</body>
+</html>
