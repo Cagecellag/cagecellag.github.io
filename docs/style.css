@@ -1,7 +1,15 @@
+@font-face {
+  font-family: 'Splatoon';
+  src: url('splatoon1.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Splatoon';
   margin: 0;
   padding: 0;
+  background-color: #3e3a49; 
 }
 
 #open-btn {
@@ -32,20 +40,20 @@ body {
 }
 
 #sidebar h2 {
-  margin-top: 0;
+  margin-top: 20px;
 }
 
 #sidebar ul {
-  list-style: none;
+  list-style: disc;
   padding: 0;
 }
 
 #sidebar ul li {
-  margin: 10px 0;
+  margin: 10px 20px;
 }
 
 #sidebar ul li a {
-  color: #fff;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -58,5 +66,12 @@ body {
 }
 
 #main-content {
-  margin: 200px;
+  text-align: center !important;
+  padding: 100px;
+  color: #ffffff;
+}
+
+#main-content h1 {
+  font-size: 80px;
+  margin-bottom: 20px;
 }
