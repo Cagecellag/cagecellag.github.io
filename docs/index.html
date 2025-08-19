@@ -1,36 +1,31 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>CageCell.io</title>
-        <link rel="stylesheet" href="/public/style/style.css">
-        <script src="/script/script.js" defer></script>
+<head>
+  <meta charset="UTF-8">
+  <title>CageCell.io</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Button at top-left -->
+  <button id="open-btn">☰</button>
 
+  <!-- Sidebar -->
+  <div id="sidebar" class="hidden">
+    <button id="close-btn">✖</button>
+    <h2>Menu</h2>
+    <p>Here, more stuff to look at</p>
+    <ul>
+      <li><a href="#section2">Main page</a></li>
+      <li><a href="#section1">Table of content</a></li>
+      <li><a href="#section3">Furry shit idk</a></li>
+    </ul>
+  </div>
 
-
-    </head>
-    <body>     
-        <!-- Button at top-left -->
-        <button id="open-btn">☰</button>
-
-        <div id="sidebar" class="hidden">
-            <button id="close-btn">✖</button>
-            <h2>Menu</h2>
-            <p>Here, more stuff to look at</p>
-            <ul>
-                <li><a href="#section2">Main page</a></li>
-                <li><a href="#section1">Table of content</a></li>
-                <li><a href="#section3">Furry shit idk</a></li>
-            </ul>      
-        </div>
-
-        <div id="main-content">
-            <h1>Page Content</h1>
-            <p>Click the ☰ button to toggle the sidebar.</p>
-        </div>
-
-        
-
-
-    </body>
+  <!-- Main content -->
+  <div id="main-content">
+    <h1>Page Content</h1>
+    <p>Click the ☰ button to toggle the sidebar.</p>
+  </div>
+</body>
 </html>
