@@ -7,7 +7,8 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-
+  <div class="overlay" id="overlay"></div>
+  
   <div id="loading-screen">
     <div id="mask"></div>
   </div>
@@ -21,9 +22,9 @@
     <h2>Menu</h2>
     <p>Here, more stuff to look at</p>
     <ul>
-      <li><a href="#section2">Main page</a></li>
-      <li><a href="#section1">Table of content</a></li>
-      <li><a href="#section3">My Sideloading Docs</a></li>
+      <li><a href="/main-page.html" onclick="transitionPage(event)">Main page</a></li>
+      <li><a href="/docs/table-of-content.html" onclick="transitionPage(event)">Table of content</a></li>
+      <li><a href="/docs/sideloading-docs.html" onclick="transitionPage(event)">My Sideloading Docs</a></li>
     </ul>
   </div>
 
@@ -33,9 +34,9 @@
 
     <div id="main-content-links">
       <ul>
-        <li><a href="/main-page.html">Main page</a></li>
-        <li><a href="/docs/table-of-content.html">Table of content</a></li>
-        <li><a href="/docs/sideloading-docs.html">My Sideloading Docs</a></li>
+        <li><a href="/main-page.html" onclick="transitionPage(event)">Main page</a></li>
+        <li><a href="/docs/table-of-content.html" onclick="transitionPage(event)">Table of content</a></li>
+        <li><a href="/docs/sideloading-docs.html" onclick="transitionPage(event)">My Sideloading Docs</a></li>
       </ul>
     </div>
 
