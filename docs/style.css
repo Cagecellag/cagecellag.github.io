@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'BlitzBold';
+
   margin: 0;
   padding: 0;
   background-color: #3e3a49; 
@@ -22,24 +22,32 @@ body {
   color: rgb(255, 255, 255);
   border: none;
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 14px;
   font-size: 24px;
   padding: 5px 10px;
+  cursor: pointer;
+}
+
+#close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
   cursor: pointer;
 }
 
 #sidebar {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 0px;
   width: 250px;
   height: 100%;
   background: #333;
   color: #fff;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-  transform: translateX(-100%);
+  transform: translateX(-140%);
   transition: transform 0.3s ease;
   font-family: sans-serif;
 }
@@ -66,21 +74,32 @@ body {
   text-decoration: none;
 }
 
-#close-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-}
-
 #main-content {
+  font-family: sans-serif;
   text-align: center !important;
-  padding: 100px;
+  padding: 40px;
+  font-size: 20px;
   color: #ffffff;
 }
 
 #main-content h1 {
-  font-size: 80px;
+  font-family: 'BlitzBold';
+  font-size: 50px;
   margin-bottom: 20px;
+}
+
+#main-content-links {
+  display: inline-block;
+  text-align: left;
+  margin-top: 20px;
+  color: #ffffff;
+}
+
+#main-content-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#main-content-links a:hover {
+  text-decoration: underline;
 }
