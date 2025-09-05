@@ -1,15 +1,20 @@
 @font-face {
-  font-family: 'Splatoon';
-  src: url('splatoon1.otf') format('opentype');
+  font-family: 'BlitzBold';
+  src: url('/docs/Fonts/BlitzBold.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  font-family: 'Splatoon';
+  font-family: 'BlitzBold';
   margin: 0;
   padding: 0;
   background-color: #3e3a49; 
+}
+
+
+#loading-screen.hidden {
+  display: none;
 }
 
 #open-btn {
