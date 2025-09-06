@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'BlitzBold';
-  src: url('Fonts/BlitzBold.otf') format('opentype');
+  src: url('/Fonts/BlitzBold.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
