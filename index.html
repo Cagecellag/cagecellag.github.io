@@ -4,19 +4,21 @@
   <meta charset="UTF-8">
   <title>CageCell.io</title>
   <link rel="stylesheet" href="/Styling/style.css">
+  <link rel="stylesheet" href="/Styling/Sidebar.css">
+  <link rel="stylesheet" href="/Styling/loading-unloading.css">
   <script src="/Scripting/script.js" defer></script>
 </head>
 <body>
-  <div class="overlay" id="overlay"></div>
-  
+  <div id="overlay" class="overlay"></div>
+  <div id="overlay2" class="active"></div>
+
+  <!-- Loading screen -->
   <div id="loading-screen">
     <div id="mask"></div>
   </div>
 
-  <!-- Button at top-left -->
-  <button id="open-btn">☰</button>
-
   <!-- Sidebar -->
+  <button id="open-btn">☰</button>
   <div id="sidebar" class="hidden">
     <button id="close-btn">✖</button>
     <h2>Menu</h2>
