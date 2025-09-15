@@ -12,14 +12,14 @@
     z-index: 9999; }
 
 body {
-
+  font-family: Arimo;
   margin: 0;
   padding: 0;
   background-color: #3e3a49; 
 }
 
 #main-content {
-  font-family: sans-serif;
+  
   text-align: center !important;
   padding: 40px;
   font-size: 20px;
@@ -27,14 +27,24 @@ body {
 }
 
 #sideloading-docs {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 250px;
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
   height: 100%;
-  background-color: #2c2a36; 
-  color: #ffffff;
-  padding: 20px;
   box-sizing: border-box;
-  overflow-y: auto;
+  text-align: left;
 }
+
+#sideloading-docs h1 {
+  font-size: 40px;
+}
+#sideloading-docs h2 {
+  font-size: 30px;
+}
+#sideloading-docs p {
+  font-size: 18px;
+}
+
+
