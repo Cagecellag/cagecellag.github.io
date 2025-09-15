@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>CageCell.io</title>
-  <link rel="stylesheet" href="/0scr/Styling/style.css">
+  <link rel="stylesheet" href="main-page.css">
   <link rel="stylesheet" href="/0scr/Styling/Sidebar.css">
   <link rel="stylesheet" href="/0scr/Styling/loading-unloading.css">
   <script src="/0scr/Scripting/script.js" defer></script>
@@ -12,11 +12,6 @@
   <div id="overlay" class="overlay"></div>
   <div id="overlay2" class="active"></div>
 
-  <!-- Loading screen -->
-  <div id="loading-screen">
-    <div id="mask"></div>
-  </div>
-
   <!-- Sidebar -->
   <button id="open-btn">☰</button>
   <div id="sidebar" class="hidden">
@@ -24,6 +19,7 @@
     <h2>Menu</h2>
     <p>Here, more stuff to look at</p>
     <ul>
+      <li><a href="/" onclick="transitionPage(event)">Home page</a></li>
       <li><a href="/main-page" onclick="transitionPage(event)">Main page</a></li>
       <li><a href="/table-of-content" onclick="transitionPage(event)">Table of content</a></li>
       <li><a href="/sideloading-docs" onclick="transitionPage(event)">My Sideloading Docs</a></li>
@@ -31,16 +27,9 @@
   </div>
 
   <!-- Main content -->
-  <div id="main-content">
-    <h1>Choose your destination</h1>
+   <div id="main-content">
+    <h1>My page</h1>
 
-    <div id="main-content-links">
-      <ul>
-        <li><a href="/main-page" onclick="transitionPage(event)">Main page</a></li>
-        <li><a href="/table-of-content" onclick="transitionPage(event)">Table of content</a></li>
-        <li><a href="/sideloading-docs" onclick="transitionPage(event)">My Sideloading Docs</a></li>
-      </ul>
-    </div>
 
   </div>
 
