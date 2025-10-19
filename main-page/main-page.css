@@ -38,7 +38,9 @@ body {
       max-height: 60px;
       width: auto; }
 
-#text01 {
+#text01,
+#text02,
+#text03 {
   margin-top: 80px;
   font-size: 20px;
   line-height: 1.6;
