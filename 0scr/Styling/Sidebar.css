@@ -64,8 +64,8 @@
     position: fixed;
     top: 12px;
     left: 14px;
-    font-size: 50px;
-    padding: 5px 10px;
+    font-size: 100px;
+    padding: 5%;
     cursor: pointer;
   }
 
@@ -73,9 +73,10 @@
     background: none;
     border: none;
     color: #f30000;
-    font-size: 50px;
+    font-size: 100px;
     cursor: pointer;
-  }
+    padding: 4%;
+    }
 
   #sidebar {
     position: center;
@@ -90,7 +91,7 @@
     transform: translateX(-140%);
     transition: transform 0.3s ease;
     font-family: sans-serif;
-    font-size: 250%;
+    font-size: 50px;
   }
 
   #sidebar.show {
@@ -107,7 +108,7 @@
   }
 
   #sidebar ul li {
-    margin: 8% 10%;
+    margin: 50px 10%;
   }
 
   #sidebar ul li a {
