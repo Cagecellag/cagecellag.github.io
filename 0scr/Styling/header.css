@@ -1,28 +1,25 @@
 #header {
   color: #ffffff;
   display: flex;
-  justify-content: center;
   background-color: #202020;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 10px;
   position: fixed;
   z-index: 1009;
   box-shadow: 0 4px 12px #202020;
-}
-
-.text-container {
-  max-height: 600px;
-  width: auto;
-  align-content: right;
+  justify-content: center;
 }
 
 
 
-
-
+#my-github-logo svg {
+  fill: #ffffff;
+  position: fixed;
+  top: 13px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+}
 
 /* Sidebar Styling */
 #open-btn {
