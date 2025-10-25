@@ -17,18 +17,28 @@
   <div id="overlay" class="overlay"></div>
   <div id="overlay2" class="active"></div>
 
-  <!-- Sidebar -->
-  <button id="open-btn">☰</button>
-  <div id="sidebar" class="hidden">
-    <button id="close-btn">✖</button>
-    <h2>Menu</h2>
-    <p>Here, more stuff to look at</p>
-    <ul>
-      <li><a href="/" onclick="transitionPage(event)">Home page</a></li>  
-      <li><a href="/main-page" onclick="transitionPage(event)">Main page</a></li>
-      <li><a href="/table-of-content" onclick="transitionPage(event)">Table of content</a></li>
-      <li><a href="/sideloading-docs" onclick="transitionPage(event)">My Sideloading Docs</a></li>
-    </ul>
+  <!-- Header -->
+  <div id ="header">
+    <!-- Sidebar -->
+    <div class="sidebar-container">
+      <button id="open-btn">☰</button>
+      <div id="sidebar" class="hidden">
+        <button id="close-btn">✖</button>
+        <h2>Menu</h2>
+        <p>Here, more stuff to look at</p>
+        <ul>
+          <li><a href="/" onclick="transitionPage(event)">Home page</a></li>
+          <li><a href="/main-page" onclick="transitionPage(event)">Main page</a></li>
+          <li><a href="/sideloading-docs" onclick="transitionPage(event)">My Sideloading Docs</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- Text -->
+    <div class="text-container">
+      <p>Welcome to CageCell.io, your go-to source for all things tech!</p>
+      <button onclick="location.href='https://github.com/CageCellag'">Go</button>
+    </div>
+
   </div>
 
   <!-- Main content -->
