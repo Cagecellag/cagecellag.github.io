@@ -14,11 +14,23 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebar.classList.remove("show");
   });
 
+  document.addEventListener("click", (event) => {
+    if (
+      sidebar.classList.contains("show") &&
+      !sidebar.contains(event.target) &&
+      !openBtn.contains(event.target)
+    ) {
+      sidebar.classList.remove("show");
+    }
+});
+
+
   // Initial fade-in when the page loads
   setTimeout(() => {
     overlay2.classList.remove("active");
   }, 100);
 
+  
   // Handle Safari and other browsers restoring from cache (bfcache)
   window.addEventListener("pageshow", (event) => {
     if (event.persisted) {

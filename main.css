@@ -1,6 +1,16 @@
 #main-content {
-  font-family: sans-serif;
   padding: 40px;
   font-size: 20px;
-  color: rgb(255, 30, 30);
+}
+
+.train {
+  position: absolute;
+  bottom: 10px;
+  left: -100px;
+  animation: moveTrain 10s linear infinite;
+}
+
+@keyframes moveTrain {
+  from { left: -200px; }
+  to { left: 110%; }
 }

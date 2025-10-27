@@ -4,24 +4,3 @@
   font-size: 20px;
   color: #ffffff;
 }
-
-#sideloading-docs {
-  position: absolute;
-  top: 150px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 100%;
-  box-sizing: border-box;
-  text-align: left;
-}
-
-#sideloading-docs h1 {
-  font-size: 40px;
-}
-#sideloading-docs h2 {
-  font-size: 30px;
-}
-#sideloading-docs p {
-  font-size: 18px;
-}
