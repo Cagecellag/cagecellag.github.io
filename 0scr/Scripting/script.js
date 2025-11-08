@@ -64,3 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 600); // matches CSS transition duration
   };
 });
+
+document.getElementById("my-github-logo").addEventListener("click", () => {
+  window.open("https://github.com/Cagecellag/cagecellag.github.io", "_blank");
+});
