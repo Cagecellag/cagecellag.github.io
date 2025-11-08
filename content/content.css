@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'abduction2002';
+  src: url('/0scr/Fonts/abduction2002.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #main-content { 
     padding-top: 100px;
 }
@@ -8,6 +15,7 @@
     width: 80%;
     height: 80vh;
 }
+
 
 button {
   background-color: #dcdcdc;
@@ -20,6 +28,7 @@ button {
   color: black;
   box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #555;
   cursor: pointer;
+  font-family: 'abduction2002';
 }
 
 button:hover {
@@ -36,8 +45,9 @@ button:active {
 button span {
   position: relative;
   top: 0;
-  transition: top 0.05s;
+
 }
 button:active span {
   top: 2px;
+  left: 1px;
 }

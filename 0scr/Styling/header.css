@@ -82,6 +82,28 @@
 }
 
 @media (max-width: 1000px) {
+
+  #header {
+    color: #ffffff;
+    display: flex;
+    background-color: #202020;
+    width: 100%;
+    padding: 100px;
+    position: fixed;
+    z-index: 1009;
+    box-shadow: 0 4px 12px #202020;
+    justify-content: center;
+  }
+
+  #my-github-logo svg {
+    fill: #ffffff;
+    position: fixed;
+    top: 13px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
   #open-btn {
     background-color: transparent;
     color: rgb(255, 255, 255);
