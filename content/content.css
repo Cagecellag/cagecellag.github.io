@@ -10,7 +10,7 @@
 
 }
 
-button {
+#main-content button {
   background-color: #dcdcdc;
   border: 2px solid #fff;
   border-right-color: #888;
@@ -24,30 +24,30 @@ button {
   font-family: 'abduction2002';
 }
 
-button:hover {
+#main-content button:hover {
   background-color: #e9e9e9;
 }
 
-button:active {
+#main-content button:active {
   border-top-color: #888;
   border-left-color: #888;
   border-right-color: #fff;
   border-bottom-color: #fff;
   box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #555;
 }
-button span {
+#main-content button span {
   position: relative;
 
 }
-button:active span {
+#main-content button:active span {
   top: 2px;
   left: 1px;
 }
 
-button span::after {
+#main-content button span::after {
   content: "Load presentation";
 }
 
-button.active span::after {
+#main-content button.active span::after {
   content: "Unload presentation";
 }
