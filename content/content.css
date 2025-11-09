@@ -51,3 +51,10 @@
 #main-content button.active span::after {
   content: "Unload presentation";
 }
+
+@media (max-width: 1500px) {
+  #main-content {
+    font-size: 100px;
+    padding-top: 300px;
+  }
+}
