@@ -60,7 +60,7 @@
   fill: #ffffff;
   position: absolute;
   right: 25px;
-  top: 50%;
+  top: 30px;
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
@@ -96,7 +96,7 @@
   color: #fff;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-  transform: translateY(-140%);
+  transform: translateY(-97%);
   transition: transform 0.3s ease;
   font-family: abduction2002;
   font-size: 140%;

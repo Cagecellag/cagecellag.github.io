@@ -7,11 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Sidebar open / close
   openBtn.addEventListener("click", () => {
-    sidebar.classList.add("show");
-  });
-
-  closeBtn.addEventListener("click", () => {
-    sidebar.classList.remove("show");
+    const isActive = openBtn.classList.toggle("active");
+    if (isActive) {
+      sidebar.classList.add("show");
+    } else {
+      sidebar.classList.remove("show");
+    }
   });
 
   document.addEventListener("click", (event) => {
@@ -64,25 +65,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 600); // matches CSS transition duration
   };
 });
-
-const isTouch = window.matchMedia("(pointer: coarse)").matches;
-
-document.querySelectorAll("button").forEach(btn => {
-  btn.addEventListener("pointerdown", () => {
-    btn.classList.add("pressed");
-  });
-
-  btn.addEventListener("pointerup", () => {
-    const delay = isTouch ? 150 : 0; // keep pressed briefly on touch
-    setTimeout(() => btn.classList.remove("pressed"), delay);
-  });
-
-  btn.addEventListener("pointercancel", () => {
-    btn.classList.remove("pressed");
-  });
-
-  btn.addEventListener("pointerleave", () => {
-    btn.classList.remove("pressed");
-  });
-});
-
