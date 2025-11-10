@@ -68,9 +68,16 @@ document.addEventListener("DOMContentLoaded", () => {
 const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
 document.querySelectorAll("button").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("pointerdown", () => {
     btn.classList.add("pressed");
+  });
+
+  btn.addEventListener("pointerup", () => {
     const delay = isTouch ? 200 : 100;
     setTimeout(() => btn.classList.remove("pressed"), delay);
+  });
+
+  btn.addEventListener("pointerleave", () => {
+    btn.classList.remove("pressed");
   });
 });

@@ -2,9 +2,10 @@ const btn = document.getElementById("load-ppt");
 const container = document.getElementById("ppt-container");
 
 btn.addEventListener("click", () => {
-     const isActive = btn.classList.toggle("active");
 
- if (isActive) {
+const isActive = btn.classList.toggle("active");
+
+if (isActive) {
     container.innerHTML = `
         <iframe 
         id="Bombay_PPP" 
