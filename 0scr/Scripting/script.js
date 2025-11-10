@@ -65,3 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 });
 
+const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.add("pressed");
+    const delay = isTouch ? 200 : 100;
+    setTimeout(() => btn.classList.remove("pressed"), delay);
+  });
+});
