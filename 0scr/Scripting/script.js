@@ -65,6 +65,3 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 });
 
-document.getElementById("my-github-logo").addEventListener("click", () => {
-  window.open("https://github.com/Cagecellag/cagecellag.github.io", "_blank");
-});
