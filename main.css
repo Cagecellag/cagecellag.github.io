@@ -3,11 +3,14 @@
   font-size: 20px;
 }
 
-.train {
-  position: absolute;
+.train-container {
   bottom: 10px;
   left: -100px;
   animation: moveTrain 10s linear infinite;
+}
+
+#train-tgv {
+  padding-top: 50px;
 }
 
 @keyframes moveTrain {
