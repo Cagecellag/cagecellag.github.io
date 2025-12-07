@@ -62,10 +62,23 @@
 
     <button><span>Title</span></button>
 
-    <audio id="xmplayer" controls></audio>
+    <div>
+      <span>here you can Drag & Drop a XM file or browse one instead.</span>
+      <br />
+      <button id="play-button">Play</button>
+      <button id="reset-button">Reset</button>
+      <input type="file" id="input-file" />
 
-    <script src="/0scr/Scripting/xmplayer/libopenmpt.js"></script>
-    <script src="/0scr/Scripting/xmplayer/player.js"></script>
+      <br />
+      <input type="range" min="0" max="100" value="100" id="volume-slider" />
+      <span>Volume</span>
+
+      <br />
+      <span style="font-family: 'Lucida Console', monospace" id="channels-text"></span>
+      <script src="https://cdn.jsdelivr.net/gh/zeozeozeo/jslibxm@master/dist/jslibxm.min.js"></script>
+      <script src="index.js"></script>
+    </div>
+
 
   
 
