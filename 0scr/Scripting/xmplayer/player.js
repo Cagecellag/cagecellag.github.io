@@ -1,3 +1,6 @@
+if (!Module) Module = {};
+Module.locateFile = (path) => "/0scr/Scripting/xmplayer/" + path;
+
 Module.onRuntimeInitialized = async () => {
     const audioElement = document.getElementById("xmplayer");
 
@@ -8,7 +11,7 @@ Module.onRuntimeInitialized = async () => {
     const array = new Uint8Array(await response.arrayBuffer());
 
     const modPtr = Module._malloc(array.length);
-    Module.HEAPU8.set(array, modPtr);
+    Module.HEAPU8.set(array, modPtr);       // <- this will now work
 
     const mod = new Module.OpenMPT.Module(modPtr, array.length);
 
