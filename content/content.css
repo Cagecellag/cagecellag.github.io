@@ -7,7 +7,17 @@
 
 #main-content { 
     padding-top: 100px;
+}
 
+.bombay-embed {
+  width: 100%;
+  max-width: 1100px;
+  height: 600px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  display: block;
+  margin: 0 auto;
 }
 
 #main-content button {
@@ -44,11 +54,11 @@
   left: 1px;
 }
 
-#main-content button span::after {
+#load-ppt span::after {
   content: "Load presentation";
 }
 
-#main-content button.active span::after {
+#load-ppt.active span::after {
   content: "Unload presentation";
 }
 
