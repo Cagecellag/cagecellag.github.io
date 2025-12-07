@@ -18,3 +18,4 @@ if (isActive) {
     container.innerHTML = "";
   }
 });
+
