@@ -65,3 +65,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 600); // matches CSS transition duration
   };
 });
+
+const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("pointerdown", () => {
+    btn.classList.add("pressed");
+  });
+
+  btn.addEventListener("pointerup", () => {
+    const delay = isTouch ? 150 : 0; // keep pressed briefly on touch
+    setTimeout(() => btn.classList.remove("pressed"), delay);
+  });
+
+  
+  btn.addEventListener("pointercancel", () => {
+    btn.classList.remove("pressed");
+  });
+
+  btn.addEventListener("pointerleave", () => {
+    btn.classList.remove("pressed");
+  });
+});
+
