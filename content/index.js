@@ -1,91 +1,123 @@
-let xmModule;
-let channelsText = document.getElementById("channels-text");
 
-libxm.onload = function () {
-    // sample rate, onfillbuffer, onxmdataupdate
-    xmModule = new XMModule(48000, null, updateChannelsText);
+    window['libopenmpt'] = {};
+    libopenmpt.locateFile = function (filename) {
+      return "//cdn.jsdelivr.net/gh/deskjet/chiptune2.js@master/" + filename;
+    };
+    libopenmpt.onRuntimeInitialized = function () {
+      var player;
 
-    var playButton = document.getElementById("play-button");
-    playButton.style.display = "none"
-
-    playButton.addEventListener("click", function () {
-        if (!xmModule.isModuleLoaded) return;
-
-        if (xmModule.playing) {
-            xmModule.pause();
-            playButton.textContent = "Play";
-        } else {
-            xmModule.resume();
-            playButton.textContent = "Pause";
+      function init() {
+        if (player == undefined) {
+          player = new ChiptuneJsPlayer(new ChiptuneJsConfig(-1));
         }
-    });
+        else {
+          player.stop();
+          playPauseButton();
+        }
+      }
 
-    // reset button
-    document
-        .getElementById("reset-button")
-        .addEventListener("click", function () {
-            xmModule.seek(0, 0, 0);
-        });
+      function setMetadata(filename) {
+        var metadata = player.metadata();
+        if (metadata['title'] != '') {
+          document.getElementById('title').innerHTML = metadata['title'];
+        }
+        else {
+          document.getElementById('title').innerHTML = filename;
+        }
 
-    // file input
-    var inputElement = document.getElementById("input-file");
-    inputElement.onchange = function (event) {
-        xmModule.load(event.target.files[0], function (err) {
-            // if successful, "err" will be false and this condition won't run
-            if (err) {
-                console.error(err);
-                return;
-            }
-            playButton.textContent = "Play";
-            playButton.style.display = "block";
-        });
-    };
-    /* if you want to load a module from a URL, just pass
-    the URL string to XMModule.load. same goes with an Int8Array. */
+        if (metadata['artist'] != '') {
+          document.getElementById('artist').innerHTML = '<br />' + metadata['artist'];
+        }
+        else {
+          document.getElementById('artist').innerHTML = '';
+        }
+      }
 
-    // volume slider (0 - minimum volume, 100 - maximum volume)
-    var volumeSlider = document.getElementById("volume-slider");
-    volumeSlider.oninput = function () {
-        xmModule.setVolume(this.value);
-    };
+      function afterLoad(path, buffer) {
+        document.querySelectorAll('#pitch,#tempo').forEach(e => e.value = 1);
+        player.play(buffer);
+        setMetadata(path);
+        pausePauseButton();
+      }
 
-    // drag & drop
-    document.addEventListener("dragover", function (e) {
-        e.stopPropagation();
+      function loadURL(path) {
+        init();
+        player.load(path, afterLoad.bind(this, path));
+      }
+
+      function pauseButton() {
+        player.togglePause();
+        switchPauseButton();
+      }
+
+      function switchPauseButton() {
+        var button = document.getElementById('pause')
+        if (button) {
+          button.id = "play_tmp";
+        }
+        button = document.getElementById('play')
+        if (button) {
+          button.id = "pause";
+        }
+        button = document.getElementById('play_tmp')
+        if (button) {
+          button.id = "play";
+        }
+      }
+
+      function playPauseButton() {
+        var button = document.getElementById('pause')
+        if (button) {
+          button.id = "play";
+        }
+      }
+
+      function pausePauseButton() {
+        var button = document.getElementById('play')
+        if (button) {
+          button.id = "pause";
+        }
+      }
+
+      var fileaccess = document.querySelector('*');
+      fileaccess.ondrop = function (e) {
         e.preventDefault();
-    });
+        var file = e.dataTransfer.files[0];
+        init();
 
-    // file dropped
-    document.addEventListener("drop", function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var files = e.dataTransfer.files; // Array of all files
+        player.load(file, afterLoad.bind(this, path));
+      }
 
-        xmModule.load(files[0], function (err) {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            playButton.textContent = "Play";
-            playButton.style.display = "block";
-            // hide file input
-            inputElement.style.display = "none";
-        });
-    });
-};
+      fileaccess.ondragenter = function (e) { e.preventDefault(); }
+      fileaccess.ondragover = function (e) { e.preventDefault(); }
 
-let previousRow = "";
-function updateChannelsText() {
-    var rowNotes = [];
-    for (var channelNum = 0; channelNum < xmModule.channelsNum; channelNum++) {
-        rowNotes.push(xmModule.getPlayingNoteInChannel(channelNum));
-    }
+      document.querySelectorAll('.song').forEach(function (e) {
+        e.addEventListener('click', function (evt) {
+          modurl = evt.target.getAttribute("data-modurl");
+          loadURL(modurl);
+        }, false);
+      });
 
-    var rowText = rowNotes.join(" | ");
+      document.querySelector('input[name=files]').addEventListener('change', function (evt) {
+        loadURL(evt.target.files[0]);
+      });
 
-    // don't update the DOM if it's the same
-    if (previousRow != rowText) {
-        channelsText.textContent = rowText;
-        previousRow = rowText;
-    }
-}
+      document.querySelector('input[name=submiturl]').addEventListener('click', function () {
+        var exturl = document.querySelector('input[name=exturl]');
+        modurl = exturl.value;
+        loadURL(modurl);
+        exturl.value = null;
+      });
+
+      document.querySelector('#play').addEventListener('click', pauseButton, false);
+
+      document.querySelector('#pitch').addEventListener('input', function (e) {
+        player.module_ctl_set('play.pitch_factor', e.target.value.toString());
+      }, false);
+
+      document.querySelector('#tempo').addEventListener('input', function (e) {
+        player.module_ctl_set('play.tempo_factor', e.target.value.toString());
+      }, false);
+    };
+
+

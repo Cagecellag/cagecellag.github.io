@@ -9,8 +9,131 @@
   <link rel="stylesheet" href="/0scr/Styling/loading-unloading.css">
   <script src="/0scr/Scripting/script.js" defer></script>
   <script src="content.js" defer></script>
-  
-  
+  <script type="text/javascript">
+    window['libopenmpt'] = {};
+    libopenmpt.locateFile = function (filename) {
+      return "//cdn.jsdelivr.net/gh/deskjet/chiptune2.js@master/" + filename;
+    };
+    libopenmpt.onRuntimeInitialized = function () {
+      var player;
+
+      function init() {
+        if (player == undefined) {
+          player = new ChiptuneJsPlayer(new ChiptuneJsConfig(-1));
+        }
+        else {
+          player.stop();
+          playPauseButton();
+        }
+      }
+
+      function setMetadata(filename) {
+        var metadata = player.metadata();
+        if (metadata['title'] != '') {
+          document.getElementById('title').innerHTML = metadata['title'];
+        }
+        else {
+          document.getElementById('title').innerHTML = filename;
+        }
+
+        if (metadata['artist'] != '') {
+          document.getElementById('artist').innerHTML = '<br />' + metadata['artist'];
+        }
+        else {
+          document.getElementById('artist').innerHTML = '';
+        }
+      }
+
+      function afterLoad(path, buffer) {
+        document.querySelectorAll('#pitch,#tempo').forEach(e => e.value = 1);
+        player.play(buffer);
+        setMetadata(path);
+        pausePauseButton();
+      }
+
+      function loadURL(path) {
+        init();
+        player.load(path, afterLoad.bind(this, path));
+      }
+
+      function pauseButton() {
+        player.togglePause();
+        switchPauseButton();
+      }
+
+      function switchPauseButton() {
+        var button = document.getElementById('pause')
+        if (button) {
+          button.id = "play_tmp";
+        }
+        button = document.getElementById('play')
+        if (button) {
+          button.id = "pause";
+        }
+        button = document.getElementById('play_tmp')
+        if (button) {
+          button.id = "play";
+        }
+      }
+
+      function playPauseButton() {
+        var button = document.getElementById('pause')
+        if (button) {
+          button.id = "play";
+        }
+      }
+
+      function pausePauseButton() {
+        var button = document.getElementById('play')
+        if (button) {
+          button.id = "pause";
+        }
+      }
+
+      var fileaccess = document.querySelector('*');
+      fileaccess.ondrop = function (e) {
+        e.preventDefault();
+        var file = e.dataTransfer.files[0];
+        init();
+
+        player.load(file, afterLoad.bind(this, path));
+      }
+
+      fileaccess.ondragenter = function (e) { e.preventDefault(); }
+      fileaccess.ondragover = function (e) { e.preventDefault(); }
+
+      document.querySelectorAll('.song').forEach(function (e) {
+        e.addEventListener('click', function (evt) {
+          modurl = evt.target.getAttribute("data-modurl");
+          loadURL(modurl);
+        }, false);
+      });
+
+      document.querySelector('input[name=files]').addEventListener('change', function (evt) {
+        loadURL(evt.target.files[0]);
+      });
+
+      document.querySelector('input[name=submiturl]').addEventListener('click', function () {
+        var exturl = document.querySelector('input[name=exturl]');
+        modurl = exturl.value;
+        loadURL(modurl);
+        exturl.value = null;
+      });
+
+      document.querySelector('#play').addEventListener('click', pauseButton, false);
+
+      document.querySelector('#pitch').addEventListener('input', function (e) {
+        player.module_ctl_set('play.pitch_factor', e.target.value.toString());
+      }, false);
+
+      document.querySelector('#tempo').addEventListener('input', function (e) {
+        player.module_ctl_set('play.tempo_factor', e.target.value.toString());
+      }, false);
+    };
+  </script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/gh/deskjet/chiptune2.js@master/libopenmpt.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/gh/deskjet/chiptune2.js@master/chiptune2.js"></script>
+
 </head>
 <body>
   <div id="overlay" class="overlay"></div>
@@ -57,29 +180,60 @@
       <div id="ppt-container"></div>
     </div>
 
-
-
-    <button><span>test</span></button>
-
-    <span>here you can Drag & Drop a XM file or browse one instead.</span>
-    <div>
-      
-      <br />
-      <button id="play-button">Play</button>
-      <button id="reset-button">Reset</button>
-      <input type="file" id="input-file" />
-
-      <br />
-      <input type="range" min="0" max="100" value="100" id="volume-slider" />
-      <span>Volume</span>
-
-      <br />
-      <span style="font-family: 'Lucida Console', monospace" id="channels-text"></span>
-      <script src="https://cdn.jsdelivr.net/gh/zeozeozeo/jslibxm@master/dist/jslibxm.min.js"></script>
-      <script src="index.js"></script>
-    </div>
-
     <p>https://github.com/zeozeozeo/jslibxm</p>
+
+
+    <div id="content">
+    <div id="info" class="banner">
+      <p>Usage: Drop any module file (.mod, .xm, .it, etc.) on this page and hit play!</p>
+    </div>
+    <div id="headline" class="banner">
+      <h1>chiptune.js</h1>
+    </div>
+    <div id="metadata" class="banner">
+      <span id="title">chiptune.js</span>
+      <span id="artist"></span>
+    </div>
+    <div id="controls" class="banner">
+      <a id="play" class="control"></a>
+      <br>
+      <div id="sliders">
+        <div>
+          <label for="tempo">Tempo</label>
+          <input id="tempo" type="range" min="0.01" max="2" step="0.01">
+        </div>
+        <div>
+          <label for="pitch">Pitch</label>
+          <input id="pitch" type="range" min="0.01" max="2" step="0.01">
+        </div>
+      </div>
+    </div>
+    <div id="choosefile" class="banner">
+      <input type="file" id="files" name="files">
+    </div>
+    <div id="chooseurl" class="banner">
+      <div>
+        <label data-protonpass-form="">External URL
+          <input type="text" id="exturl" name="exturl">
+          <input type="button" value="Submit" id="submiturl" name="submiturl">
+        </label>
+      </div>
+    </div>
+    <div id="demos" class="banner">
+      <div>
+        <h2>Demo Songs</h2>
+        <a class="song" data-modurl="tunes/CORE - ConceptDraw Pro NetDiagrammer PlugIn 2.0 MacOSX kg.xm" href="#">Phallanx by CORE
+          <span class="size">42kb</span>
+        </a>
+        <a class="song" data-modurl="tunes/DARKSiDERS - Highschool Possession Game installer.mod" href="#">tecknohouse91 by DARKSiDERS
+          <span class="size">90kb</span>
+        </a>
+        <a class="song" data-modurl="tunes/CORE - Avid Software kg.mod" href="#">crockett's ship by CORE
+          <span class="size">65kb</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
 
   

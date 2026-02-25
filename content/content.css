@@ -5,8 +5,8 @@
   font-style: normal;
 }
 
-#main-content { 
-    padding-top: 100px;
+#main-content {
+  padding-top: 100px;
 }
 
 .bombay-embed {
@@ -15,7 +15,7 @@
   height: 600px;
   border: none;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   display: block;
   margin: 0 auto;
 }
@@ -45,10 +45,12 @@
   border-bottom-color: #fff;
   box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #555;
 }
+
 #main-content button span {
   position: relative;
 
 }
+
 #main-content button:active span {
   top: 2px;
   left: 1px;
@@ -68,3 +70,96 @@
     padding-top: 300px;
   }
 }
+
+
+
+#choosefile input {
+  padding: 0.5rem;
+  background: #f7f7f7;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(215, 99, 34, 0.78);
+}
+
+#choosefile, #controls, #chooseurl {
+  margin-top: 1.9rem;
+}
+
+#demos, #chooseurl {
+  text-align: center;
+}
+#demos > div, #chooseurl > div {
+  display: inline-block;
+  margin: 0 auto;
+  text-align: left;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(215, 99, 34, 0.78);
+  padding: 1rem;
+  background: #fff;
+}
+#demos > div h2, #chooseurl > div h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+}
+#demos > div .song, #chooseurl > div .song {
+  display: block;
+  text-decoration: none;
+  color: #4C4CBD;
+}
+#demos > div .song + .song, #chooseurl > div .song + .song {
+  margin-top: 0.65rem;
+}
+#demos > div .song .size, #chooseurl > div .song .size {
+  vertical-align: super;
+  font-size: 0.6rem;
+  margin-left: 0.3rem;
+}
+#demos > div .song .size:before, #chooseurl > div .song .size:before {
+  content: "(";
+}
+#demos > div .song .size:after, #chooseurl > div .song .size:after {
+  content: ")";
+}
+
+
+.control:active, .control.pressed {
+  box-shadow: 0px 3px 0px #323232, 0px 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+.control#play::before {
+  content: "play";
+}
+.control#pause::before {
+  content: "pause";
+}
+.control#loop {
+  display: none;
+}
+.control#loop + label {
+  background-image: url("../img/loop.svg");
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.control#loop:checked + label {
+  box-shadow: 0px 3px 0px #323232, 0px 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+#sliders {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 1.9rem 0 0 auto;
+  text-align: left;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(215, 99, 34, 0.78);
+  padding: 1rem;
+  background: #f7f7f7;
+  line-height: 2;
+}
+#sliders > div {
+  display: inline-flex;
+  justify-content: space-between;
+}
+#sliders > div > input {
+  margin-left: 1rem;
+}
+
