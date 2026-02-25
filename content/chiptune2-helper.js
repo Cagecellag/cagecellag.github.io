@@ -1,5 +1,4 @@
-
-    window['libopenmpt'] = {};
+window['libopenmpt'] = {};
     libopenmpt.locateFile = function (filename) {
       return "//cdn.jsdelivr.net/gh/deskjet/chiptune2.js@master/" + filename;
     };
@@ -16,13 +15,15 @@
         }
       }
 
-      function setMetadata(filename) {
+      function setMetadata(path) {
         var metadata = player.metadata();
+        var filename = path.name || path.split('/').pop() || path;
+        document.getElementById('filename').innerHTML = filename;
         if (metadata['title'] != '') {
           document.getElementById('title').innerHTML = metadata['title'];
         }
         else {
-          document.getElementById('title').innerHTML = filename;
+          document.getElementById('title').innerHTML = '';
         }
 
         if (metadata['artist'] != '') {
@@ -34,9 +35,37 @@
       }
 
       function afterLoad(path, buffer) {
-        document.querySelectorAll('#pitch,#tempo').forEach(e => e.value = 1);
+        document.querySelectorAll('#pitch,#tempo,#volume').forEach(e => e.value = 1);
         player.play(buffer);
         setMetadata(path);
+
+        // Setup seekbar
+        var seekbar = document.getElementById('seekbar');
+        var timeDisplay = document.getElementById('time-display');
+        seekbar.max = player.duration();
+        seekbar.value = 0;
+
+        function formatTime(seconds) {
+          var min = Math.floor(seconds / 60);
+          var sec = Math.floor(seconds % 60);
+          return min + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function updateSeekbar() {
+          if (player.currentPlayingNode) {
+            var current = player.getCurrentTime();
+            var total = player.duration();
+            seekbar.value = current;
+            timeDisplay.textContent = formatTime(current) + ' / ' + formatTime(total);
+          }
+        }
+
+        var updateInterval = setInterval(updateSeekbar, 100);
+
+        seekbar.addEventListener('input', function(e) {
+          player.seekTo(parseFloat(e.target.value));
+        });
+
         pausePauseButton();
       }
 
@@ -118,6 +147,8 @@
       document.querySelector('#tempo').addEventListener('input', function (e) {
         player.module_ctl_set('play.tempo_factor', e.target.value.toString());
       }, false);
+
+      document.querySelector('#volume').addEventListener('input', function (e) {
+        player.setVolume(parseFloat(e.target.value));
+      }, false);
     };
-
-
