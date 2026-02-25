@@ -62,8 +62,13 @@ window['libopenmpt'] = {};
 
         var updateInterval = setInterval(updateSeekbar, 100);
 
-        seekbar.addEventListener('input', function(e) {
+        seekbar.addEventListener('mousedown', function() {
+          clearInterval(updateInterval);
+        });
+
+        seekbar.addEventListener('change', function(e) {
           player.seekTo(parseFloat(e.target.value));
+          updateInterval = setInterval(updateSeekbar, 100);
         });
 
         pausePauseButton();
