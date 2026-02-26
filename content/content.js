@@ -32,3 +32,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+const seek = document.getElementById('seekbar');
+if (seek) {
+  function updateSeekBg() {
+    const min = Number(seek.min) || 0;
+    const max = Number(seek.max) || 100;
+    const val = Number(seek.value);
+    const pct = ((val - min) / (max - min)) * 100;
+    seek.style.setProperty('--percent', pct + '%');
+  }
+  seek.addEventListener('input', updateSeekBg);
+  // initialize on load
+  updateSeekBg();
+}

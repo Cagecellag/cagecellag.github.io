@@ -56,7 +56,7 @@ window['libopenmpt'] = {};
             var current = player.getCurrentTime();
             var total = player.duration();
             seekbar.value = current;
-            timeDisplay.textContent = formatTime(current) + ' / ' + formatTime(total);
+            timeDisplay.textContent = formatTime(current) + '/' + formatTime(total);
           }
         }
 
