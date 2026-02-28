@@ -149,8 +149,8 @@ body {
     to right,
     #0000ff 0%,
     #0000ff var(--progress),
-    #4e4e4e var(--progress),
-    #4e4e4e 100%
+    #ffffff00 var(--progress),
+    #ffffff00 100%
   );
   padding: 0;
   margin: 0
