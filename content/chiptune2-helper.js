@@ -44,6 +44,7 @@ window['libopenmpt'] = {};
         var timeDisplay = document.getElementById('time-display');
         seekbar.max = player.duration();
         seekbar.value = 0;
+        
 
         function formatTime(seconds) {
           var min = Math.floor(seconds / 60);
@@ -51,16 +52,27 @@ window['libopenmpt'] = {};
           return min + ':' + (sec < 10 ? '0' : '') + sec;
         }
 
+        const slider = document.querySelector("#seekbar");
+
         function updateSeekbar() {
           if (player.currentPlayingNode) {
             var current = player.getCurrentTime();
             var total = player.duration();
             seekbar.value = current;
             timeDisplay.textContent = formatTime(current) + '/' + formatTime(total);
+            
+            
+            const percent = (current / total) * 100;
+            seekbar.style.setProperty("--progress", percent + "%");
           }
         }
 
-        var updateInterval = setInterval(updateSeekbar, 100);
+        slider.addEventListener("input", () => {
+          const percent = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+          slider.style.setProperty("--progress", percent + "%");
+        });
+
+        var updateInterval = setInterval(updateSeekbar, 30);
 
         seekbar.addEventListener('mousedown', function() {
           clearInterval(updateInterval);
@@ -113,6 +125,8 @@ window['libopenmpt'] = {};
         }
       }
 
+      
+
       var fileaccess = document.querySelector('*');
       fileaccess.ondrop = function (e) {
         e.preventDefault();
@@ -156,4 +170,6 @@ window['libopenmpt'] = {};
       document.querySelector('#volume').addEventListener('input', function (e) {
         player.setVolume(parseFloat(e.target.value));
       }, false);
+
+    
     };
