@@ -111,27 +111,66 @@ body {
   color: white;
 }
 
-#volumme-container {
+#volume-container {
   position: absolute;
-  display: flex;
-  bottom: 30px;
-  left: 15px;
+  right: 40px;
+  top: 30px;
   align-items: center;
 }
 .volume-background {
-  background-color: silver;
-  border-color: #262529 #8c8f94 #9b9ba5 #4b4b53;
-  color: #1d1d1d;
-  border-width: 4px;
-  box-sizing: border-box;
-  border-style: solid;
-  height: 25px;
-  display: flex;
-  width: 200px;
+  height: 90px;
+  width: 6px;
 }
+
+
+
 #volume {
-  width: 100%;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 100%;
+  background: transparent;   /* Must be transparent so the track pseudo-element shows */
+  outline: none;
 }
+
+/* ── Thumb ── */
+#volume::-moz-range-thumb {
+  width: 28px;
+  height: 13.5px;
+  border-radius: 0;
+  background: #c3c3c3;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 13.5px;
+  border-radius: 0;
+  background: #c3c3c3;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
+  border: none;
+  cursor: pointer;
+  margin-left: -12.5px;
+}
+
+/* ── Track ── */
+#volume::-moz-range-track {
+  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #828282, inset -2px -2px #c3c3c3, inset 2px 0px rgb(0, 0, 0);
+  width: 4px;
+}
+
+#volume::-webkit-slider-runnable-track {
+  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #828282, inset -2px -2px #c3c3c3, inset 2px 0px rgb(0, 0, 0);
+  width: 4px;
+  background: #c0c0c0;
+}
+
+
 .control {
   position: absolute;
   display: flex;
