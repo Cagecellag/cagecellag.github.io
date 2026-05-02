@@ -115,30 +115,74 @@ body {
   position: absolute;
   right: 40px;
   top: 30px;
+  height: 81px;
+  width: 47px;
+}
+
+
+
+.volume-arrow {
+  top: 8px;
   align-items: center;
+  display: flex;
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
+
+
+
+
 .volume-background {
-  height: 90px;
-  width: 6px;
+  height: 81px;
+  width: 31px;
+  align-items: center;
+  display: flex;
+  padding-right: auto;
+  position: absolute;
+  right: 0px;
+  
+
+  background-image: 
+    repeating-linear-gradient(to right, #828282 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(to right, #828282 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(to bottom, #828282 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(to bottom, #828282 0 1px, transparent 1px 2px);
+
+  background-position: 
+    top left,
+    bottom left,
+    top right,
+    top left;
+    
+  background-size:
+    100% 1px,
+    100% 1px,
+    1px 100%,
+    1px 100%;
+
+  background-repeat: no-repeat;
 }
-
-
 
 #volume {
+  margin-left: 5px;
+  margin-top: 3px;
   writing-mode: vertical-lr;
   direction: rtl;
   -webkit-appearance: none;
   appearance: none;
-  width: 24px;
-  height: 100%;
-  background: transparent;   /* Must be transparent so the track pseudo-element shows */
+  height: 65px;
+  background: transparent;  
   outline: none;
+  
 }
 
 /* ── Thumb ── */
 #volume::-moz-range-thumb {
-  width: 28px;
-  height: 13.5px;
+  top: 3px;
+  width: 21px;
+  height: 11px;
   border-radius: 0;
   background: #c3c3c3;
   box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
