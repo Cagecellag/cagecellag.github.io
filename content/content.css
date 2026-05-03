@@ -192,26 +192,28 @@ body {
 
 #volume::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 28px;
-  height: 13.5px;
+  width: 21px;
+  height: 11px;
   border-radius: 0;
   background: #c3c3c3;
   box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
   border: none;
   cursor: pointer;
-  margin-left: -12.5px;
+  margin-left: -8px;
 }
 
 /* ── Track ── */
 #volume::-moz-range-track {
   box-shadow: inset -1px -1px #ffffff, inset 1px 1px #828282, inset -2px -2px #c3c3c3, inset 2px 0px rgb(0, 0, 0);
   width: 4px;
+  
 }
 
 #volume::-webkit-slider-runnable-track {
   box-shadow: inset -1px -1px #ffffff, inset 1px 1px #828282, inset -2px -2px #c3c3c3, inset 2px 0px rgb(0, 0, 0);
   width: 4px;
   background: #c0c0c0;
+  margin-left: 6px;
 }
 
 
