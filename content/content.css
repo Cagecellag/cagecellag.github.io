@@ -79,8 +79,6 @@ body {
 
 
 
-
-
 .musicplayer#chiptuneplayer {
   height: 225px;
   width: 700px;
@@ -119,8 +117,6 @@ body {
   width: 47px;
 }
 
-
-
 .volume-arrow {
   top: 8px;
   align-items: center;
@@ -130,9 +126,6 @@ body {
   pointer-events: none;
   -webkit-user-drag: none;
 }
-
-
-
 
 .volume-background {
   height: 81px;
