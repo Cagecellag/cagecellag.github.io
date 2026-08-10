@@ -19,8 +19,9 @@
   font-family: "abduction2002";            
   box-sizing: border-box;
   border-style: solid;       
-  border-width: 6px;
-  border-color: #bbbbc4 #55545e #3d3c42 #a7aaaf; 
+  border-color: #bbbbc4 #55545e #3d3c42 #a7aaaf;
+  border: none;
+  box-shadow: inset -1px -1px #bbbbc4,inset 1px 1px #55545e,inset -2px -2px #3d3c42,inset 2px 2px #a7aaaf;
 }
 #header button {
   background-color: #dcdcdc;
