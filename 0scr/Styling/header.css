@@ -11,10 +11,11 @@
   display: flex;
   align-items: center; 
   justify-content: center;
-  background: linear-gradient(#86878b, #58585e);
+  background-color: silver;
   width: 100%;
   height: 60px;
   position: fixed;
+  border-width: 4px;
   z-index: 1009;
   font-family: "abduction2002";            
   box-sizing: border-box;
@@ -23,6 +24,22 @@
   border: none;
   box-shadow: inset -1px -1px #bbbbc4,inset 1px 1px #55545e,inset -2px -2px #3d3c42,inset 2px 2px #a7aaaf;
 }
+
+#title-bar-header {
+  background: linear-gradient(90deg,navy,#1084d0);
+  padding: 3px 2px 3px 3px;
+  height: 13PX;
+  font-size: 10px;
+  color: white;
+  position: fixed;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  align-items: center; 
+  justify-content: center;
+  display: flex;
+}
+
 #header button {
   background-color: #dcdcdc;
   border: 2px solid #fff;
