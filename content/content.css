@@ -47,9 +47,6 @@ body {
   padding: 0 12px;
 }
 
-#main-content button:hover {
-  background-color: #e9e9e9;
-}
 
 #main-content button:active {
   border-top-color: #888;
@@ -61,7 +58,6 @@ body {
 
 #main-content button span {
   position: relative;
-
 }
 
 #main-content button:active span {
@@ -211,20 +207,23 @@ The old style of the volume control was a simple rectangle with a gradient backg
   margin-left: 6px;
 }*/
 
-
-.control {
+.controles {
   position: absolute;
   display: flex;
+  gap: 4px;
   bottom: 5px;
   left: 15px;
-  height: 25px;
 }
-.control#play span::after {
-  content: "play";
+#main-content .transport-btn.active {
+  box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #555;
 }
-.control#pause span::after {
-  content: "pause";
+
+#main-content .transport-btn.active span {
+  top: 2px;
+  left: 1px;
 }
+
+
 
 #seekbar-container {
   position: absolute;
@@ -311,4 +310,3 @@ The old style of the volume control was a simple rectangle with a gradient backg
   text-decoration: none;
   color: #4C4CBD;
 }
-

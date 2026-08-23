@@ -4,7 +4,6 @@ const container = document.getElementById("ppt-container");
 btn.addEventListener("click", () => {
 
 
-const isActive = btn.classList.toggle("active");
 
 if (isActive) {
     container.innerHTML = `
@@ -21,17 +20,7 @@ if (isActive) {
 });
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  // chiptune player setup
-  const player = ChiptuneJsPlayer.loadFile("/0scr/Media/song.xm"); // replace with your file
-  const playBtn = document.getElementById("play-btn");
-  const stopBtn = document.getElementById("stop-btn");
 
-  playBtn.addEventListener("click", () => {
-    player.play();
-  });
-
-});
 
 const seek = document.getElementById('seekbar');
 if (seek) {

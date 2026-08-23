@@ -4,14 +4,14 @@ window['libopenmpt'] = {};
     };
     libopenmpt.onRuntimeInitialized = function () {
       var player;
+      var currentBuffer;
 
       function init() {
         if (player == undefined) {
           player = new ChiptuneJsPlayer(new ChiptuneJsConfig(-1));
         }
         else {
-          player.stop();
-          playPauseButton();
+          resetPlayerState();
         }
       }
 
@@ -35,6 +35,7 @@ window['libopenmpt'] = {};
       }
 
       function afterLoad(path, buffer) {
+        currentBuffer = buffer;
         document.querySelectorAll('#pitch,#tempo,#volume').forEach(e => e.value = 1);
         player.play(buffer);
         setMetadata(path);
@@ -83,7 +84,7 @@ window['libopenmpt'] = {};
           updateInterval = setInterval(updateSeekbar, 100);
         });
 
-        pausePauseButton();
+        updateControlState();
       }
 
       function loadURL(path) {
@@ -91,38 +92,55 @@ window['libopenmpt'] = {};
         player.load(path, afterLoad.bind(this, path));
       }
 
+      function playButton() {
+        if (!player.currentPlayingNode && currentBuffer) {
+          player.play(currentBuffer);
+        } else if (player.currentPlayingNode && player.currentPlayingNode.paused) {
+          player.togglePause();
+        }
+        updateControlState();
+      }
+
       function pauseButton() {
-        player.togglePause();
-        switchPauseButton();
+        if (player.currentPlayingNode && !player.currentPlayingNode.paused) {
+          player.togglePause();
+        }
+        updateControlState();
       }
 
-      function switchPauseButton() {
-        var button = document.getElementById('pause')
-        if (button) {
-          button.id = "play_tmp";
-        }
-        button = document.getElementById('play')
-        if (button) {
-          button.id = "pause";
-        }
-        button = document.getElementById('play_tmp')
-        if (button) {
-          button.id = "play";
-        }
+      function stopButton() {
+        resetPlayerState();
       }
 
-      function playPauseButton() {
-        var button = document.getElementById('pause')
-        if (button) {
-          button.id = "play";
-        }
+      function updateControlState() {
+        var hasPlayingNode = player && player.currentPlayingNode;
+        var isPaused = hasPlayingNode && hasPlayingNode.paused;
+        var isPlaying = hasPlayingNode && !isPaused;
+        var isStopped = !hasPlayingNode;
+
+        document.getElementById('play').disabled = !currentBuffer;
+        document.getElementById('pause').disabled = !hasPlayingNode || isPaused;
+        document.getElementById('stop').disabled = !hasPlayingNode;
+
+        document.getElementById('play').classList.toggle('active', !!isPlaying);
+        document.getElementById('pause').classList.toggle('active', !!isPaused);
+        document.getElementById('stop').classList.toggle('active', !!isStopped);
       }
 
-      function pausePauseButton() {
-        var button = document.getElementById('play')
-        if (button) {
-          button.id = "pause";
+      function resetPlayerState() {
+        if (player) {
+          player.stop();
         }
+        currentBuffer = undefined;
+        document.getElementById('title').textContent = 'chiptune.js';
+        document.getElementById('artist').textContent = '';
+        document.getElementById('filename').textContent = '';
+        document.getElementById('seekbar').max = 100;
+        document.getElementById('seekbar').value = 0;
+        document.getElementById('seekbar').style.setProperty('--progress', '0%');
+        document.getElementById('time-display').textContent = '0:00/0:00';
+        document.querySelectorAll('#pitch,#tempo,#volume').forEach(e => e.value = '');
+        updateControlState();
       }
 
       
@@ -157,7 +175,10 @@ window['libopenmpt'] = {};
         exturl.value = null;
       });
 
-      document.querySelector('#play').addEventListener('click', pauseButton, false);
+      document.querySelector('#play').addEventListener('click', playButton, false);
+      document.querySelector('#pause').addEventListener('click', pauseButton, false);
+      document.querySelector('#stop').addEventListener('click', stopButton, false);
+      updateControlState();
 
       document.querySelector('#pitch').addEventListener('input', function (e) {
         player.module_ctl_set('play.pitch_factor', e.target.value.toString());
