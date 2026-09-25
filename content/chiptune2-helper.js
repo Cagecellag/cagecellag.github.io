@@ -5,6 +5,7 @@ window['libopenmpt'] = {};
     libopenmpt.onRuntimeInitialized = function () {
       var player;
       var currentBuffer;
+      var volume = 1;
 
       function init() {
         if (player == undefined) {
@@ -36,8 +37,13 @@ window['libopenmpt'] = {};
 
       function afterLoad(path, buffer) {
         currentBuffer = buffer;
-        document.querySelectorAll('#pitch,#tempo,#volume').forEach(e => e.value = 1);
+        document.querySelectorAll('#pitch,#tempo').forEach(e => e.value = 1);
+        var volumeControl = document.querySelector('#volume');
+        if (volumeControl) {
+          volumeControl.value = volume;
+        }
         player.play(buffer);
+        player.setVolume(volume);
         setMetadata(path);
 
         // Setup seekbar
@@ -139,7 +145,11 @@ window['libopenmpt'] = {};
         document.getElementById('seekbar').value = 0;
         document.getElementById('seekbar').style.setProperty('--progress', '0%');
         document.getElementById('time-display').textContent = '0:00/0:00';
-        document.querySelectorAll('#pitch,#tempo,#volume').forEach(e => e.value = '');
+        document.querySelectorAll('#pitch,#tempo').forEach(e => e.value = '');
+        var volumeControl = document.querySelector('#volume');
+        if (volumeControl) {
+          volumeControl.value = volume;
+        }
         updateControlState();
       }
 
@@ -180,17 +190,28 @@ window['libopenmpt'] = {};
       document.querySelector('#stop').addEventListener('click', stopButton, false);
       updateControlState();
 
-      document.querySelector('#pitch').addEventListener('input', function (e) {
-        player.module_ctl_set('play.pitch_factor', e.target.value.toString());
-      }, false);
+      var pitchControl = document.querySelector('#pitch');
+      if (pitchControl) {
+        pitchControl.addEventListener('input', function (e) {
+          player.module_ctl_set('play.pitch_factor', e.target.value.toString());
+        }, false);
+      }
 
-      document.querySelector('#tempo').addEventListener('input', function (e) {
-        player.module_ctl_set('play.tempo_factor', e.target.value.toString());
-      }, false);
+      var tempoControl = document.querySelector('#tempo');
+      if (tempoControl) {
+        tempoControl.addEventListener('input', function (e) {
+          player.module_ctl_set('play.tempo_factor', e.target.value.toString());
+        }, false);
+      }
 
-      document.querySelector('#volume').addEventListener('input', function (e) {
-        player.setVolume(parseFloat(e.target.value));
-      }, false);
+      var volumeControl = document.querySelector('#volume');
+      if (volumeControl) {
+        volumeControl.value = volume;
+        volumeControl.addEventListener('input', function (e) {
+          volume = parseFloat(e.target.value);
+          player.setVolume(volume);
+        }, false);
+      }
 
     
     };
